@@ -1,0 +1,170 @@
+unit Unit4;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  JvExExtCtrls, JvExtComponent, JvCaptionPanel, Data.DB, Vcl.Mask, Vcl.DBCtrls,
+  Vcl.Grids, Vcl.DBGrids, Vcl.ComCtrls, frxClass, frxDBSet;
+
+type
+  TForm4 = class(TForm)
+    Panel1: TPanel;
+    RadioGroup1: TRadioGroup;
+    JvCaptionPanel1: TJvCaptionPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Edit1: TEdit;
+    Button1: TButton;
+    Panel3: TPanel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
+    DBEdit1: TDBEdit;
+    DBEdit2: TDBEdit;
+    DBEdit3: TDBEdit;
+    DBEdit4: TDBEdit;
+    DBEdit5: TDBEdit;
+    DBEdit6: TDBEdit;
+    DBEdit7: TDBEdit;
+    DBEdit8: TDBEdit;
+    JvCaptionPanel2: TJvCaptionPanel;
+    Label3: TLabel;
+    Edit2: TEdit;
+    DBGrid1: TDBGrid;
+    Button3: TButton;
+    JvCaptionPanel3: TJvCaptionPanel;
+    Label4: TLabel;
+    Button4: TButton;
+    DBGrid2: TDBGrid;
+    Button5: TButton;
+    ComboBox1: TComboBox;
+    JvCaptionPanel4: TJvCaptionPanel;
+    Label5: TLabel;
+    Button6: TButton;
+    DBGrid3: TDBGrid;
+    Button7: TButton;
+    DateTimePicker1: TDateTimePicker;
+    Label6: TLabel;
+    DateTimePicker2: TDateTimePicker;
+    Button2: TButton;
+    frxReportconductor: TfrxReport;
+    frxDBDataset1: TfrxDBDataset;
+    procedure RadioGroup1Click(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form4: TForm4;
+
+implementation
+
+{$R *.dfm}
+
+uses Unit2;
+
+procedure TForm4.Button1Click(Sender: TObject);
+begin
+       DataModule1.Queryfolio.Close;
+       DataModule1.Queryfolio.ParamByName('folio').AsString := Form4.Edit1.Text;
+       DataModule1.Queryfolio.Open;
+         if DataModule1.Queryfolio.EOF then
+           begin
+            DataModule1.ClientDataSet2.Refresh;
+            Form4.Label2.Caption:= ('El Folio no se ha encontrado');
+            Form4.JvCaptionPanel1.Top:=8; form4.JvCaptionPanel1.Left:=230;
+            Form4.JvCaptionPanel1.Height:=86; Form4.JvCaptionPanel1.Width:=287;
+           end
+           else
+           begin
+             DataModule1.ClientDataSet2.Refresh;
+            Form4.Label2.Caption:= ('Folio encontrado con Exito');
+           Form4.JvCaptionPanel1.Top:=8; form4.JvCaptionPanel1.Left:=230;
+           Form4.JvCaptionPanel1.Height:=342; Form4.JvCaptionPanel1.Width:=418;
+           end;
+end;
+
+procedure TForm4.Button2Click(Sender: TObject);
+begin
+       DataModule1.Queryconductor.Close;
+       DataModule1.Queryconductor.ParamByName('conductor').AsString := Form4.Edit2.Text+'%';
+       DataModule1.Queryconductor.Open;
+         if DataModule1.Queryconductor.EOF then
+           begin
+            DataModule1.ClientDataSet3.Refresh;
+            ShowMessage('El Conductor no se ha encontrado');
+            Form4.JvCaptionPanel1.Top:=8; form4.JvCaptionPanel1.Left:=230;
+            Form4.JvCaptionPanel1.Height:=86; Form4.JvCaptionPanel1.Width:=287;
+           end
+           else
+           begin
+             DataModule1.ClientDataSet3.Refresh;
+           ShowMessage('El Conductor se ha encontrado con Exito');
+           Form4.JvCaptionPanel1.Top:=8; form4.JvCaptionPanel1.Left:=230;
+           Form4.JvCaptionPanel1.Height:=342; Form4.JvCaptionPanel1.Width:=418;
+           end;
+end;
+
+procedure TForm4.Button3Click(Sender: TObject);
+begin
+  Form4.frxReportconductor.ShowReport;
+end;
+
+procedure TForm4.FormActivate(Sender: TObject);
+begin
+ DataModule1.clientdataset2.Refresh;
+end;
+
+procedure TForm4.RadioGroup1Click(Sender: TObject);
+begin
+    case RadioGroup1.ItemIndex of
+    0:
+    begin
+     Form4.JvCaptionPanel2.Visible:=false;
+     Form4.JvCaptionPanel3.Visible:=false;
+     Form4.JvCaptionPanel4.Visible:=false;
+     Form4.JvCaptionPanel1.Top:=8; form4.JvCaptionPanel1.Left:=230;
+     Form4.JvCaptionPanel1.Height:=86; Form4.JvCaptionPanel1.Width:=287;
+     Form4.JvCaptionPanel1.Visible:=true;
+    end;
+    1:
+    begin
+     Form4.JvCaptionPanel1.Visible:=false;
+     Form4.JvCaptionPanel3.Visible:=false;
+     Form4.JvCaptionPanel4.Visible:=false;
+     Form4.JvCaptionPanel2.Top:=8; form4.JvCaptionPanel2.Left:=230;
+     Form4.JvCaptionPanel2.Visible:=true;
+    end;
+    2:
+    begin
+     Form4.JvCaptionPanel1.Visible:=false;
+     Form4.JvCaptionPanel2.Visible:=false;
+     Form4.JvCaptionPanel4.Visible:=false;
+     Form4.JvCaptionPanel3.Top:=8; form4.JvCaptionPanel3.Left:=230;
+     Form4.JvCaptionPanel3.Visible:=true;
+    end;
+    3:
+    begin
+     Form4.JvCaptionPanel1.Visible:=false;
+     Form4.JvCaptionPanel2.Visible:=false;
+     Form4.JvCaptionPanel4.Top:=8; form4.JvCaptionPanel4.Left:=230;
+     Form4.JvCaptionPanel4.Visible:=true;
+    end;
+    end;
+end;
+
+end.

@@ -1,0 +1,125 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.StdCtrls, Vcl.ExtCtrls,
+  JvExExtCtrls, JvExtComponent, JvCaptionPanel;
+
+type
+  TForm1 = class(TForm)
+    MainMenu1: TMainMenu;
+    Archivo1: TMenuItem;
+    Busquedas1: TMenuItem;
+    Busquedas2: TMenuItem;
+    Ayuda1: TMenuItem;
+    Salir1: TMenuItem;
+    ValesdeCombustibles1: TMenuItem;
+    CapturarVales1: TMenuItem;
+    Timer1: TTimer;
+    Image1: TImage;
+    JvCaptionPanel1: TJvCaptionPanel;
+    Button1: TButton;
+    Button2: TButton;
+    Panel1: TPanel;
+    Label2: TLabel;
+    Edit2: TEdit;
+    Edit1: TEdit;
+    Label1: TLabel;
+    Label3: TLabel;
+    ComboBox1: TComboBox;
+    ComboBox2: TComboBox;
+    Label4: TLabel;
+    Label5: TLabel;
+    ComboBox3: TComboBox;
+    Edit3: TEdit;
+    Label6: TLabel;
+    Label7: TLabel;
+    Edit4: TEdit;
+    Edit5: TEdit;
+    Label8: TLabel;
+    Label9: TLabel;
+    procedure Salir1Click(Sender: TObject);
+    procedure CapturarVales1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+Var
+i, tamano:integer;
+begin
+     if (Form1.Text = '')then
+        begin
+        ShowMessage('Escribe el Folio');
+        end
+           else
+              begin
+               //ShowMessage('Campos llenos correctamente');
+               DataModule1.Queryvaleduplicado.Close;
+               DataModule1.Queryvaleduplicado.ParamByName('folio').AsString := Form1.Edit2.Text;
+               DataModule1.Queryvaleduplicado.Open;
+                if DataModule1.Queryvaleduplicado.EOF then
+                   begin
+                  // ShowMessage('El Producto No esta Registrado!');
+                            DataModule1.Queryaltavales.ParamByName('folio').AsString :=Form1.Edit2.Text;
+                            DataModule1.Queryaltavales.ParamByName('nombre').AsString := Form1.Edit1.Text;
+                            DataModule1.Queryaltavales.ParamByName('dependencia').AsString := Form1.ComboBox1.Text;
+                            DataModule1.Queryaltavales.ParamByName('mes').AsString := Form1.ComboBox2.Text;
+                            DataModule1.Queryaltavales.ParamByName('producto').AsString := Form1.ComboBox3.Text;
+                            DataModule1.Queryaltavales.ParamByName('vehiculo').AsString := Form1.Edit3.Text;
+                            DataModule1.Queryaltavales.ParamByName('placas').AsString := Form1.Edit4.Text;
+                            DataModule1.Queryaltavales.ParamByName('cantidad').AsInteger := intToStr(Form1.Edit5.Text);
+                            DataModule1.Queryaltavales.ParamByName('fecha').AsDateTime := Now;
+                            DataModule1.Queryaltavales.ExecSQL;
+                            ShowMessage('Vale Agregado con Exito!');
+                            DataModule1.Tvales.Refresh;
+                            DataModule1.ClientDataSet1.Refresh;
+                           // Limpiar los edits
+                            tamano := Form1.ComponentCount;
+                              for i:=0 to tamano - 1 do
+                              if (Form1.Components[i] is TEdit) then
+                                TEdit(Form1.Components[i]).Clear;
+                   end
+                   else
+                   begin
+                   ShowMessage('El Producto ya esta Registrado!');
+                   end;
+               end;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  Form1.JvCaptionPanel1.Visible:= false;
+end;
+
+procedure TForm1.CapturarVales1Click(Sender: TObject);
+begin
+    Form1.JvCaptionPanel1.Top:=72; form1.JvCaptionPanel1.Left:=104;
+    Form1.JvCaptionPanel1.Visible:= true;
+end;
+
+procedure TForm1.FormActivate(Sender: TObject);
+begin
+   Form1.Label9.Caption:= DateTimeToStr(now);
+end;
+
+procedure TForm1.Salir1Click(Sender: TObject);
+begin
+   Application.Terminate;
+end;
+
+end.

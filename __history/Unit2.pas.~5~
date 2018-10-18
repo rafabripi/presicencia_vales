@@ -1,0 +1,53 @@
+unit Unit2;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Data.DBXMySQL, Data.DB, Data.SqlExpr,
+  Datasnap.Provider, Datasnap.DBClient, Data.FMTBcd;
+
+type
+  TDataModule1 = class(TDataModule)
+    DataSource1: TDataSource;
+    ClientDataSet1: TClientDataSet;
+    DataSetProvider1: TDataSetProvider;
+    SQLConnection1: TSQLConnection;
+    Tvales: TSQLTable;
+    Tvalesid_vales: TIntegerField;
+    Tvalesfolio: TStringField;
+    Tvalesnombre_conductor: TStringField;
+    Tvalesdependencia: TStringField;
+    Tvalesmes: TStringField;
+    Tvalesproducto: TStringField;
+    Tvalesvehiculo: TStringField;
+    Tvalesplacas: TStringField;
+    Tvalescantidad: TIntegerField;
+    Queryaltavales: TSQLQuery;
+    Queryvaleduplicado: TSQLQuery;
+    Tvalesfecha: TSQLTimeStampField;
+    ClientDataSet1id_vales: TIntegerField;
+    ClientDataSet1folio: TStringField;
+    ClientDataSet1nombre_conductor: TStringField;
+    ClientDataSet1dependencia: TStringField;
+    ClientDataSet1mes: TStringField;
+    ClientDataSet1producto: TStringField;
+    ClientDataSet1vehiculo: TStringField;
+    ClientDataSet1placas: TStringField;
+    ClientDataSet1cantidad: TIntegerField;
+    ClientDataSet1fecha: TSQLTimeStampField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  DataModule1: TDataModule1;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+end.
